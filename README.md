@@ -27,3 +27,16 @@ ALL COMPONENTS START WITH A CAPITAL LETTER
 JSX use elements with classNames (capN)(can't use class b/c class is a reserved word in js - hence className)
 
 JSX DYNAMIC TEMPLATES and Values
+Dynamic templates include interpolation within the RETURN.
+You can write all of your functions or arrow functions between the declaration of the Component and the return line.
+Numbers and arrays and strings will be converted to strings in interpolation. Objects and booleans will not.
+
+MULTIPLE COMPONENTS.
+The initial, root component renedered is the App.js file. Any sub components will be NESTED within the App.js file.
+
+So, make a new file within the SRC folder - ex. Navbar.js (notice the capital N).
+
+STYLLING
+the index.css is kind of like a global css. You can also have an App.css as a layer over the index.css.
+
+Another common way is to delete the App.css file and just use the index.css. But both css files will appear in the DOM.
