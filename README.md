@@ -40,3 +40,19 @@ STYLLING
 the index.css is kind of like a global css. You can also have an App.css as a layer over the index.css.
 
 Another common way is to delete the App.css file and just use the index.css. But both css files will appear in the DOM.
+
+STATE - the data being used at that time. If you want a variable to change based on a user action, then you are want to use a hook like setState.
+
+HOOKS in react are known by their title USE - useState hook
+first - import {usestate} from 'react'; if you set a var or let to a name, that var is NOT reactive. You need to use a SETSTATE function to update the template. You do this by importing setState from 'react'.
+
+Then, within the component, const invoke the useStateFunction - useState('mario');
+(the array below is called an array-destructering)
+but that function should be stored in a variable -
+const [nameToChangeVALUEisMario, setNAMEFunction] = useState('mario'). useState can be a string, number, bool, object, array.
+The original value is stored in nameToChangeMario.
+The function to change that original value is stored setNAMEFunction once the event is triggered, the setNAMEFunction is executed and the template(return) is updated
+
+const handleClick = () => {
+setName('luigi');
+}
