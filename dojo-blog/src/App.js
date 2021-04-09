@@ -33,6 +33,9 @@ function App() {
 				<p>{[1, 2, 3, 4, 5]}</p>
 				<p>{Math.random() * 10}</p>
 				<a href={link}>Google Site</a>
+				<br></br>
+				<button>CLICK ME from app.js </button>
+				<button>CLICK ME AGAIN from app.js </button>
 			</div>
 		</div>
 	);
