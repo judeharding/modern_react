@@ -87,7 +87,27 @@ use this for GET requests
 
 SOMETIMES, the program runs soooo fast that you will get an error b/c blogs hasn't come down to my machine from the SERVER. In the template, add curly braces around the component. Add blogs && <BlogListk>.
 
-it works with conditional templating. the blogs has to eval to TRUE before the component on the left of the && is rendered
+it works with conditional templating. the blogs has to eval to TRUE before the component on the left of the && is rendered.
+
+Create custom hooks with the prefix use - useFetch.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
 
 =================
 template for new proj
@@ -111,35 +131,15 @@ when creating a component, type sfc to get a template of a stateless functional 
 
 make sure you import your child components into the Home.js component.
 
-When working with JSON, you will need to create this
-import { useState, useEffect } from "react";
-import BlogList from "./BlogList";
+When working with JSON, you will need to fix your Home.js component...
+
+import useFetch from "./useFetch";
 
 const Home = () => {
-const [blogs, setBlogs] = useState(null);
-const [isLoading, setIsLoading] = useState(true);
-const [error, setError] = useState(null);
-
-    useEffect(() => {
-    	console.log("use effect ran");
-    	fetch("http://localhost:8000/blogs")
-    		.then((res) => {
-    			if (!res.ok) {
-    				throw Error("Could Not Fetch the data");
-    			}
-    			return res.json();
-    		})
-    		.then((data) => {
-    			setBlogs(data);
-    			setIsLoading(false);
-    			setError(null);
-    		})
-    		.catch((err) => {
-    			console.log("ERROR...  " + err.message);
-    			setIsLoading(false);
-    			setError(err.message);
-    		});
-    }, []);
+// renaming data to blogs below
+const { data: blogs, isLoading, error } = useFetch(
+"http://localhost:8000/blogs"
+);
 
     //TEMPLATE
     return (
@@ -163,3 +163,40 @@ const [error, setError] = useState(null);
 };
 
 export default Home;
+
+you will also need to create a new file called useFetch.js
+//imports
+import { useState, useEffect } from "react";
+
+// creating a custom hook with the prefix "use"
+const useFetch = (url) => {
+const [data, setData] = useState(null);
+const [isLoading, setIsLoading] = useState(true);
+const [error, setError] = useState(null);
+
+    useEffect(() => {
+    	console.log("use effect ran");
+    	fetch(url)
+    		.then((res) => {
+    			if (!res.ok) {
+    				throw Error("Could Not Fetch the data");
+    			}
+    			return res.json();
+    		})
+    		.then((data1) => {
+    			setData(data1);
+    			setIsLoading(false);
+    			setError(null);
+    		})
+    		.catch((err) => {
+    			console.log("ERROR...  " + err.message);
+    			setIsLoading(false);
+    			setError(err.message);
+    		});
+    }, [url]);
+
+    return { data, isLoading, error };
+
+};
+
+export default useFetch;
