@@ -58,3 +58,11 @@ setName('luigi');
 }
 
 installing React Dev Tools gives us access to the COMPONENTS tree (inspect)
+
+PROPS - when using data from one component inside another component, you need to use PROPS from a parent to child component by adding a property name on the child tag - ex <BlogList blogs={blogs}></BlogList> and make sure you RECEIVE it on the BlogsList component the argument passed into the BlogList.js (props)
+const blogs = props.blogs;
+
+Filter an array on the parent component
+<BlogList
+blogs={blogs.filter((blog) => blog.author === "mario")}
+title="Mario's Blogs!!!" ></BlogList>

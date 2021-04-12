@@ -1,5 +1,6 @@
 //imports
 import { useState } from "react";
+import BlogList from "./BlogList";
 
 const Home = () => {
 	const [blogs, setBlogs] = useState([
@@ -23,19 +24,22 @@ const Home = () => {
 		},
 	]);
 
+	const handleDelete = (id) => {
+		const newBlogs = blogs.filter((blog) => blog.id !== id);
+		setBlogs(newBlogs);
+	};
+
 	//TEMPLATE
 	return (
 		<div className="home">
 			<h2>Home Page</h2>
-			{/* map method cycles thru an array w/js */}
-
-			{blogs.map((blog) => (
-				// when using map, you must have a unique KEY
-				<div className="blog-preview" key={blog.id}>
-					<h2>{blog.title}</h2>
-					<p>Written by: {blog.author}</p>
-				</div>
-			))}
+			{/* child component below accepting blogs property above  */}
+			<BlogList blogs={blogs} title="All Blogs!!!"></BlogList>
+			<BlogList
+				blogs={blogs.filter((blog) => blog.author === "mario")}
+				title="Mario's Blogs!!!"
+				handleDelete={handleDelete}
+			></BlogList>
 		</div>
 	);
 };
