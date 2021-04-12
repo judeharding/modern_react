@@ -4,22 +4,27 @@ import BlogList from "./BlogList";
 
 const Home = () => {
 	const [blogs, setBlogs] = useState(null);
-
-	// useEffect(() => {
-	// 	// runs everytime a component renders - even the 1st time
-	// 	console.log(" use effect ran");
-	// 	// now only runs when NAME changes - like a watcher
-	// }, [name]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		console.log("use effect ran");
 		fetch("http://localhost:8000/blogs")
 			.then((res) => {
+				if (!res.ok) {
+					throw Error("Could Not Fetch the data");
+				}
 				return res.json();
 			})
 			.then((data) => {
-				console.log(data);
 				setBlogs(data);
+				setIsLoading(false);
+				setError(null);
+			})
+			.catch((err) => {
+				console.log("ERROR...  " + err.message);
+				setIsLoading(false);
+				setError(err.message);
 			});
 	}, []);
 
@@ -27,6 +32,12 @@ const Home = () => {
 	return (
 		<div className="home">
 			<h2>Home Page</h2>
+
+			{/* conditional rendering for server errors  */}
+			{error && <div> {error} </div>}
+
+			{/* conditional temlate waiting on data to load...  */}
+			{isLoading && <div>Is Loading... </div>}
 
 			{/* curley braces arouns the bloglist component to handle the "no data yet" problem . 
 			 it works with conditional templating.  the blogs 

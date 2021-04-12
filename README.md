@@ -88,3 +88,78 @@ use this for GET requests
 SOMETIMES, the program runs soooo fast that you will get an error b/c blogs hasn't come down to my machine from the SERVER. In the template, add curly braces around the component. Add blogs && <BlogListk>.
 
 it works with conditional templating. the blogs has to eval to TRUE before the component on the left of the && is rendered
+
+=================
+template for new proj
+using createReactApp as a starter project
+
+npx create-react-app new-app-name
+
+delete the REACT stuff you don't want like logo files and odd components.
+
+add some index css for the entire SPA.
+
+your index.html feeds from App.js component.
+
+the App.js component gets its info from Home.js component.
+
+you work in the Home.js component.
+
+EVERY little thing in your project is probably a component. and you can have components within components. ex. Navbar is made up of all of the links in your navbar.
+
+when creating a component, type sfc to get a template of a stateless functional component.
+
+make sure you import your child components into the Home.js component.
+
+When working with JSON, you will need to create this
+import { useState, useEffect } from "react";
+import BlogList from "./BlogList";
+
+const Home = () => {
+const [blogs, setBlogs] = useState(null);
+const [isLoading, setIsLoading] = useState(true);
+const [error, setError] = useState(null);
+
+    useEffect(() => {
+    	console.log("use effect ran");
+    	fetch("http://localhost:8000/blogs")
+    		.then((res) => {
+    			if (!res.ok) {
+    				throw Error("Could Not Fetch the data");
+    			}
+    			return res.json();
+    		})
+    		.then((data) => {
+    			setBlogs(data);
+    			setIsLoading(false);
+    			setError(null);
+    		})
+    		.catch((err) => {
+    			console.log("ERROR...  " + err.message);
+    			setIsLoading(false);
+    			setError(err.message);
+    		});
+    }, []);
+
+    //TEMPLATE
+    return (
+    	<div className="home">
+    		<h2>Home Page</h2>
+
+    		{/* conditional rendering for server errors  */}
+    		{error && <div> {error} </div>}
+
+    		{/* conditional temlate waiting on data to load...  */}
+    		{isLoading && <div>Is Loading... </div>}
+
+    		{/* curley braces arouns the bloglist component to handle the "no data yet" problem .
+    		 it works with conditional templating.  the blogs
+    		 has to eval to TRUE before the component on the left
+    		  of the && is rendered */}
+    		{blogs && <BlogList blogs={blogs} title="All Blogs!!!"></BlogList>}
+    	</div>
+    );
+
+};
+
+export default Home;
