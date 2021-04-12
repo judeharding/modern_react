@@ -1,5 +1,5 @@
 // const BlogList = (props) => {  // destructuring below
-const BlogList = ({ blogs, title, handleDelete }) => {
+const BlogList = ({ blogs, title }) => {
 	// const blogs = props.blogs;
 	// const title = props.title;
 
@@ -16,7 +16,6 @@ const BlogList = ({ blogs, title, handleDelete }) => {
 					<h2>{blog.title}</h2>
 					<p>Written by: {blog.author}</p>
 					{/* creating an anonymous function to delete from the HOME.js  */}
-					<button onClick={() => handleDelete(blog.id)}>Delete Blog</button>
 				</div>
 			))}
 		</div>

@@ -1,7 +1,7 @@
 Testing Github
 https://www.youtube.com/playlist?list=PL4cUxeGkcC9gZD-Tvwfod2gaISzfRiP9d
 
-vid #2
+JSON vid - https://www.youtube.com/watch?v=mAqYJF-yxO8
 
 video lessons code
 https://github.com/iamshaunjp/Complete-React-Tutorial
@@ -66,3 +66,25 @@ Filter an array on the parent component
 <BlogList
 blogs={blogs.filter((blog) => blog.author === "mario")}
 title="Mario's Blogs!!!" ></BlogList>
+
+MORE HOOKS - useState, useEffect - runs a function on every render of the component (when a state has changed). Import useEffect from 'react'. It runs everytime a component renders - even the 1st time. but be careful.
+don't change state in the useEffect or you MIGHT create an endless loop. Can be used to fetch data.
+
+UseEffect has dependencies. the Dependency Array is a second argument to the function.
+useEffect(() => {  
+ console.log(" use effect ran");
+}, []);
+the EMPTY array above only runs on the FIRST render of useEffect.
+
+If I add a dependency to the array - ex name - then only when the NAME changes does the useEffect run.
+
+useEffect is great for JSON.
+
+CREATE A FAKE JSON FILE TO WATCH to set API endpoints
+JSON - in a new terminal window, npx json-server --watch data/db.json --port 8000
+we open port 8000 b/c our current file is running on 3000
+use this for GET requests
+
+SOMETIMES, the program runs soooo fast that you will get an error b/c blogs hasn't come down to my machine from the SERVER. In the template, add curly braces around the component. Add blogs && <BlogListk>.
+
+it works with conditional templating. the blogs has to eval to TRUE before the component on the left of the && is rendered

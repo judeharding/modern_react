@@ -1,45 +1,38 @@
 //imports
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
 
 const Home = () => {
-	const [blogs, setBlogs] = useState([
-		{
-			title: "My new website",
-			body: "lorem ipsum...",
-			author: "mario",
-			id: 1,
-		},
-		{
-			title: "Welcome party!",
-			body: "lorem ipsum...",
-			author: "yoshi",
-			id: 2,
-		},
-		{
-			title: "Web dev top tips",
-			body: "lorem ipsum...",
-			author: "mario",
-			id: 3,
-		},
-	]);
+	const [blogs, setBlogs] = useState(null);
 
-	const handleDelete = (id) => {
-		const newBlogs = blogs.filter((blog) => blog.id !== id);
-		setBlogs(newBlogs);
-	};
+	// useEffect(() => {
+	// 	// runs everytime a component renders - even the 1st time
+	// 	console.log(" use effect ran");
+	// 	// now only runs when NAME changes - like a watcher
+	// }, [name]);
+
+	useEffect(() => {
+		console.log("use effect ran");
+		fetch("http://localhost:8000/blogs")
+			.then((res) => {
+				return res.json();
+			})
+			.then((data) => {
+				console.log(data);
+				setBlogs(data);
+			});
+	}, []);
 
 	//TEMPLATE
 	return (
 		<div className="home">
 			<h2>Home Page</h2>
-			{/* child component below accepting blogs property above  */}
-			<BlogList blogs={blogs} title="All Blogs!!!"></BlogList>
-			<BlogList
-				blogs={blogs.filter((blog) => blog.author === "mario")}
-				title="Mario's Blogs!!!"
-				handleDelete={handleDelete}
-			></BlogList>
+
+			{/* curley braces arouns the bloglist component to handle the "no data yet" problem . 
+			 it works with conditional templating.  the blogs 
+			 has to eval to TRUE before the component on the left
+			  of the && is rendered */}
+			{blogs && <BlogList blogs={blogs} title="All Blogs!!!"></BlogList>}
 		</div>
 	);
 };
