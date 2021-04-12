@@ -56,3 +56,5 @@ The function to change that original value is stored setNAMEFunction once the ev
 const handleClick = () => {
 setName('luigi');
 }
+
+installing React Dev Tools gives us access to the COMPONENTS tree (inspect)

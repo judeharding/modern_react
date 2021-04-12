@@ -1,35 +1,41 @@
 //imports
 import { useState } from "react";
 
-// let name = "mario"; // this is NOT reactive to rerendure the template
-
-// const handleClickAgain = (name) => {
-// 	console.log("hello again " + name);
-// };
-
 const Home = () => {
-	const [name, setName] = useState("mario");
-	console.log("NAME B4 click = " + name);
-
-	const handleClick = () => {
-		console.log("hello, ninja");
-		setName("luigi");
-		console.log("NAME AFTER click = " + name);
-	};
+	const [blogs, setBlogs] = useState([
+		{
+			title: "My new website",
+			body: "lorem ipsum...",
+			author: "mario",
+			id: 1,
+		},
+		{
+			title: "Welcome party!",
+			body: "lorem ipsum...",
+			author: "yoshi",
+			id: 2,
+		},
+		{
+			title: "Web dev top tips",
+			body: "lorem ipsum...",
+			author: "mario",
+			id: 3,
+		},
+	]);
 
 	//TEMPLATE
 	return (
 		<div className="home">
 			<h2>Home Page</h2>
-			<p>NAME = {name}</p>
-			<button onClick={handleClick}>Click me from home.js</button>
-			{/* <button
-				onClick={() => {
-					handleClickAgain("mario");
-				}}
-			>
-				Click Me Again from home.js
-			</button> */}
+			{/* map method cycles thru an array w/js */}
+
+			{blogs.map((blog) => (
+				// when using map, you must have a unique KEY
+				<div className="blog-preview" key={blog.id}>
+					<h2>{blog.title}</h2>
+					<p>Written by: {blog.author}</p>
+				</div>
+			))}
 		</div>
 	);
 };
