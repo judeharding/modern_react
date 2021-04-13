@@ -117,9 +117,11 @@ using createReactApp as a starter project
 
 2.) install router for routing pages thru terminal = npm install react-router-dom@5 // last stable version
 
-3.) delete the REACT stuff you don't want like logo files and odd components.
+3.) Open VS terminal and type npm run start. Optional, open another VS terminal and type npx json-server --watch data/db.json --port 8000 (if you are running any json files)
 
-4.) add some index css for the entire SPA.
+4.) delete the REACT stuff you don't want like logo files and odd components.
+
+5.) add some index css for the entire SPA.
 // base styles
 
 STAR\* {
@@ -155,7 +157,7 @@ margin: 40px auto;
 padding: 20px;
 }
 
-5.) then in your App.js file, surround everything after the return in a <Router></Router> tag
+6.) then in your App.js file, surround everything after the return in a <Router></Router> tag
 then in your CONTENT section of the app.js file, add the <Switch> tag. This allows for only ONE route to be displayed at a time. Within the SWITCH component, you establish all of your ROUTES like: the HOME component wrapped in a ROUTE tag with a path of...
 <Switch>
 <Route exact path="/">
@@ -167,7 +169,7 @@ then in your CONTENT section of the app.js file, add the <Switch> tag. This allo
 </Route>
 <Switch>
 
-6.) For each path, you need to import the LINK from react-router-dom then modify your paths
+7.) For each path, you need to import the LINK from react-router-dom then modify your paths
 {/_ instead of using a href tags below, we use 'Link to' tags
 to prevent the run to the server - the pages are already here _/}
 
@@ -175,17 +177,17 @@ to prevent the run to the server - the pages are already here _/}
 <Link to="/">Home</Link>
 <Link to="/create"> New Blog</Link>
 
-7.) your index.html feeds from App.js component.
+8.) your index.html feeds from App.js component.
 the App.js component gets its work from Home.js component.
 you work in the Home.js component.
 
-8.) EVERY little thing in your project is probably a component. and you can have components within components. ex. Navbar is made up of all of the links in your navbar.
+9.) EVERY little thing in your project is probably a component. and you can have components within components. ex. Navbar is made up of all of the links in your navbar.
 
 when creating a component, type sfc to get a template of a stateless functional component.
 
 make sure you import your child components into the Home.js component.
 
-9.) When working with JSON, you will need to fix your Home.js component...
+10.) When working with JSON, you will need to fix your Home.js component...
 
 import useFetch from "./useFetch";
 
@@ -218,7 +220,7 @@ const { data: blogs, isLoading, error } = useFetch(
 
 export default Home;
 
-10.) you will also need to create a new file called useFetch.js
+11.) you will also need to create a new file called useFetch.js
 //imports
 import { useState, useEffect } from "react";
 
@@ -267,3 +269,22 @@ console.log("use effect ran");
 };
 
 export default useFetch;
+
+12.) so for every component, you will need to create the component file in the src folder ComponentFile.js in there, type sfc to get you started. if your component needs parameters, you will have to import useParams and add const { id } = useParams(); and update your fetch request with the id
+
+then you will need to add the route to the App.js file
+<Route path="/blogs/:id">
+<BlogDetails></BlogDetails>
+</Route>
+(don't forget to import that component at the top of the App.js file)
+
+then you will need to add the param id to the list file
+
+import useFetch from "./useFetch";
+const { data: blog, error, isLoading } = useFetch('http://localhost:8000/blogs/' + id);
+
+<div className="blog-preview" key={blog.id}>
+<Link to={`/blogs/${blog.id}`}>
+<h2>{blog.title}</h2>
+<p>Written by: {blog.author}</p>
+</Link>

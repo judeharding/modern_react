@@ -1,8 +1,8 @@
+// IMPORTS
+import { Link } from "react-router-dom";
+
 // const BlogList = (props) => {  // destructuring below
 const BlogList = ({ blogs, title }) => {
-	// const blogs = props.blogs;
-	// const title = props.title;
-
 	// TEMPLATE
 	return (
 		<div className="blog-list">
@@ -13,9 +13,10 @@ const BlogList = ({ blogs, title }) => {
 				// when using map, you must have a unique KEY
 
 				<div className="blog-preview" key={blog.id}>
-					<h2>{blog.title}</h2>
-					<p>Written by: {blog.author}</p>
-					{/* creating an anonymous function to delete from the HOME.js  */}
+					<Link to={`/blogs/${blog.id}`}>
+						<h2>{blog.title}</h2>
+						<p>Written by: {blog.author}</p>
+					</Link>
 				</div>
 			))}
 		</div>
