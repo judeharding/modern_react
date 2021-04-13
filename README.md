@@ -288,3 +288,33 @@ const { data: blog, error, isLoading } = useFetch('http://localhost:8000/blogs/'
 <h2>{blog.title}</h2>
 <p>Written by: {blog.author}</p>
 </Link>
+
+13.) FORMS IN REACT
+setting up input fields and tracking the values (and state) in react
+go to your component and in the return, enter the FORM tags - removing the action b/c it will be submitted a different way.
+
+import { useState } from "react";
+const [inputfieldname, setInputFieldName] = useState("");
+
+<form>
+
+<label>Blog Title: </label>
+<input
+type="text"
+required
+value={title}
+onChange={(e) => {
+setTitle(e.target.value);
+}}
+/>
+<select
+value={author}
+onChange={(e) => {
+setAuthor(e.target.value);
+}} >
+
+<option value="mario">mario</option>
+<option value="yoshi">yoshi</option>
+</select>
+<button>Add Blog</button>
+</form>
