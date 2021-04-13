@@ -113,25 +113,79 @@ Create custom hooks with the prefix use - useFetch.
 template for new proj
 using createReactApp as a starter project
 
-npx create-react-app new-app-name
+1.) npx create-react-app new-app-name
 
-delete the REACT stuff you don't want like logo files and odd components.
+2.) install router for routing pages thru terminal = npm install react-router-dom@5 // last stable version
 
-add some index css for the entire SPA.
+3.) delete the REACT stuff you don't want like logo files and odd components.
 
-your index.html feeds from App.js component.
+4.) add some index css for the entire SPA.
+// base styles
 
-the App.js component gets its info from Home.js component.
+STAR\* {
+margin: 0;
+font-family: "Quicksand";
+color: #333;
+}
+.navbar {
+padding: 20px;
+display: flex;
+align-items: center;
+max-width: 600px;
+margin: 0 auto;
+border-bottom: 1px solid #f2f2f2;
+}
+.navbar h1 {
+color: #f1356d;
+}
+.navbar .links {
+margin-left: auto;
+}
+.navbar a {
+margin-left: 16px;
+text-decoration: none;
+padding: 6px;
+}
+.navbar a:hover {
+color: #f1356d;
+}
+.content {
+max-width: 600px;
+margin: 40px auto;
+padding: 20px;
+}
 
+5.) then in your App.js file, surround everything after the return in a <Router></Router> tag
+then in your CONTENT section of the app.js file, add the <Switch> tag. This allows for only ONE route to be displayed at a time. Within the SWITCH component, you establish all of your ROUTES like: the HOME component wrapped in a ROUTE tag with a path of...
+<Switch>
+<Route exact path="/">
+<Home />
+</Route>
+
+<Route exact path="/contact">
+<Contact />
+</Route>
+<Switch>
+
+6.) For each path, you need to import the LINK from react-router-dom then modify your paths
+{/_ instead of using a href tags below, we use 'Link to' tags
+to prevent the run to the server - the pages are already here _/}
+
+<div className="links">
+<Link to="/">Home</Link>
+<Link to="/create"> New Blog</Link>
+
+7.) your index.html feeds from App.js component.
+the App.js component gets its work from Home.js component.
 you work in the Home.js component.
 
-EVERY little thing in your project is probably a component. and you can have components within components. ex. Navbar is made up of all of the links in your navbar.
+8.) EVERY little thing in your project is probably a component. and you can have components within components. ex. Navbar is made up of all of the links in your navbar.
 
 when creating a component, type sfc to get a template of a stateless functional component.
 
 make sure you import your child components into the Home.js component.
 
-When working with JSON, you will need to fix your Home.js component...
+9.) When working with JSON, you will need to fix your Home.js component...
 
 import useFetch from "./useFetch";
 
@@ -164,7 +218,7 @@ const { data: blogs, isLoading, error } = useFetch(
 
 export default Home;
 
-you will also need to create a new file called useFetch.js
+10.) you will also need to create a new file called useFetch.js
 //imports
 import { useState, useEffect } from "react";
 
@@ -174,9 +228,12 @@ const [data, setData] = useState(null);
 const [isLoading, setIsLoading] = useState(true);
 const [error, setError] = useState(null);
 
-    useEffect(() => {
-    	console.log("use effect ran");
-    	fetch(url)
+useEffect(() => {
+// abortCont stopts the fetch when it gets the signal from the return cleanup below
+const abortCont = new AbortController();
+console.log("use effect ran");
+
+    	fetch(url, { signal: abortCont.signal })
     		.then((res) => {
     			if (!res.ok) {
     				throw Error("Could Not Fetch the data");
@@ -189,10 +246,20 @@ const [error, setError] = useState(null);
     			setError(null);
     		})
     		.catch((err) => {
-    			console.log("ERROR...  " + err.message);
-    			setIsLoading(false);
-    			setError(err.message);
+    			if (err.name === "AbortError") {
+    				// does not update the "state"  // part of the useEffect Cleanup
+    				console.log(" Fetch Aborted");
+    			} else {
+    				console.log("ERROR...  " + err.message);
+    				setIsLoading(false);
+    				setError(err.message);
+    			}
     		});
+    	// cleans up any unmounted errors
+    	return () => {
+    		// aborts any fetching errors
+    		abortCont.abort();
+    	};
     }, [url]);
 
     return { data, isLoading, error };

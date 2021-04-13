@@ -1,4 +1,5 @@
 // import any files needed
+import { Link } from "react-router-dom";
 
 // type sfc and snippet will create a "stateless, functional component"
 // give it the name of your component and it will create a boilerplate
@@ -7,9 +8,11 @@ const Navbar = () => {
 		// returning jsx template for the NAVBAR
 		<nav className="navbar">
 			<h1>The Dojo Blog</h1>
+			{/* instead of using a href tags below, we use 'Link to' tags
+			 to prevent the run to the server - the pages are already here  */}
 			<div className="links">
-				<a href="/">Home</a>
-				<a href="/create"> New Blog</a>
+				<Link to="/">Home</Link>
+				<Link to="/create"> New Blog</Link>
 			</div>
 		</nav>
 	);

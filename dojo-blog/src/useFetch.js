@@ -8,8 +8,11 @@ const useFetch = (url) => {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
+		// abortCont stopts the fetch when it gets the signal from the return cleanup below
+		const abortCont = new AbortController();
 		console.log("use effect ran");
-		fetch(url)
+
+		fetch(url, { signal: abortCont.signal })
 			.then((res) => {
 				if (!res.ok) {
 					throw Error("Could Not Fetch the data");
@@ -22,10 +25,20 @@ const useFetch = (url) => {
 				setError(null);
 			})
 			.catch((err) => {
-				console.log("ERROR...  " + err.message);
-				setIsLoading(false);
-				setError(err.message);
+				if (err.name === "AbortError") {
+					// does not update the "state"  // part of the useEffect Cleanup
+					console.log(" Fetch Aborted");
+				} else {
+					console.log("ERROR...  " + err.message);
+					setIsLoading(false);
+					setError(err.message);
+				}
 			});
+		// cleans up any unmounted errors
+		return () => {
+			// aborts any fetching errors
+			abortCont.abort();
+		};
 	}, [url]);
 
 	return { data, isLoading, error };
