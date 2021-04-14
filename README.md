@@ -337,3 +337,4 @@ const blog = { title, body, author };
     };
 
 CHECK THE CREATE file for handling isLoading problems and redirections
+CHECK THE BLOGDETAILS file for deleting a blog
