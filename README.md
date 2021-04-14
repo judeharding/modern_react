@@ -318,3 +318,22 @@ setAuthor(e.target.value);
 </select>
 <button>Add Blog</button>
 </form>
+
+you can use an onClick event handler on the button or react to the submit event (in the form tag onSubmit = {handleSubmit}).
+
+const handleSubmit = (e) => {
+e.preventDefault();
+// create an object to send to the JSON server
+const blog = { title, body, author };
+
+    	// Fetch API request
+    	fetch("http://localhost:8000/blogs", {
+    		method: "POST",
+    		headers: { "Content-Type": "application/json" },
+    		body: JSON.stringify(blog),
+    	}).then(() => {
+    		console.log("new blog added");
+    	});
+    };
+
+CHECK THE CREATE file for handling isLoading problems and redirections
