@@ -338,3 +338,32 @@ const blog = { title, body, author };
 
 CHECK THE CREATE file for handling isLoading problems and redirections
 CHECK THE BLOGDETAILS file for deleting a blog
+
+14.) Create a catch-all route for users who try to enter stuff thru the url.
+
+on the APP.js file, AT THE BOTTOM of the routes section, add
+<Route path="*">
+<NotFound></NotFound>
+</Route>
+
+create a NotFound.js Component
+import { Link } from "react-router-dom";
+
+const NotFound = () => {
+return (
+// creating a template
+
+<div className="not-found">
+<h2>Sorry</h2>
+<br />
+<p>That page cannot be found</p>
+<br />
+<br />
+<Link to="/">Go Home</Link>
+</div>
+);
+};
+
+export default NotFound;
+
+THE END
